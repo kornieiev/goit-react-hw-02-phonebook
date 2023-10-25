@@ -33,7 +33,6 @@ export class App extends Component {
     //
     // Фільтр пошуку по імені
     const handleFilterChange = e => {
-      const filter = this.state.filter.trim();
       this.setState({
         filter: e.target.value.trim(),
       });
