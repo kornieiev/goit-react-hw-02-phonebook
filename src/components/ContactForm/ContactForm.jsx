@@ -40,6 +40,7 @@ export class Phonebook extends Component {
           <label htmlFor="name">Name</label>
           <input
             className={css.input}
+            id="name"
             type="text"
             name="name"
             pattern="^[a-zA-Zа-яА-Я]+(([' \-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
@@ -53,6 +54,7 @@ export class Phonebook extends Component {
           </label>
           <input
             className={css.input}
+            id="number"
             type="tel"
             name="number"
             pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
@@ -74,7 +76,5 @@ export class Phonebook extends Component {
 export default Phonebook;
 
 Phonebook.propTypes = {
-  // onBtnClick: PropTypes.func.isRequired,
   props: PropTypes.object.isRequired,
-  // onHandleChange: PropTypes.func.isRequired,
 };
