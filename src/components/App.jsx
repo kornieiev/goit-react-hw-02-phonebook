@@ -16,47 +16,59 @@ export class App extends Component {
     filter: '',
   };
 
+  //
+  // Логіка додавання нового контакту:
+  addNewContact = newContact => {
+    const { contacts } = this.state;
+    if (contacts.find(contact => contact.name === newContact.name)) {
+      alert(newContact.name + ' is already in contacts.');
+      return;
+    }
+    this.setState(prevState => {
+      return { contacts: [newContact, ...prevState.contacts] };
+    });
+  };
+
+  //
+  // Зміна значення state.filter в інпуті фільтра
+  handleFilterChange = e => {
+    this.setState({ [e.target.name]: e.target.value });
+    this.contactsFilter();
+  };
+
+  //
+  // Фільтр пошуку по імені і номеру для передачі відфільтрованого масиву в ContactList
+  contactsFilter = () => {
+    return this.state.contacts.filter(contact => {
+      return `${contact.name}${contact.number}`
+        .toLocaleLowerCase()
+        .includes(this.state.filter.toLocaleLowerCase().trim());
+    });
+  };
+
+  //
+  // Перевірка на збереження копій контактів
+  deleteContact = id => {
+    this.setState(prevState => {
+      return {
+        contacts: prevState.contacts.filter(contact => contact.id !== id),
+      };
+    });
+  };
+
   render() {
-    // Логика добавления нового контакта:
-    const addNewContact = newContact => {
-      const { contacts } = this.state;
-
-      if (contacts.find(contact => contact.name === newContact.name)) {
-        alert(newContact.name + ' is already in contacts.');
-        return;
-      }
-      this.setState({
-        contacts: [...contacts, newContact],
-      });
-    };
-
-    //
-    // Фільтр пошуку по імені
-    const handleFilterChange = e => {
-      this.setState({
-        filter: e.target.value.trim(),
-      });
-    };
-
-    // Перевірка на збереження копій контактів
-    const deleteContact = e => {
-      let idToDelete = e.target.value;
-      const updatedContacts = this.state.contacts.filter(
-        contact => contact.id !== idToDelete
-      );
-      this.setState({ contacts: updatedContacts });
-    };
-
     return (
       <div className={css.mainBox}>
         <h1>Phonebook</h1>
-        <ContactForm addNewContact={addNewContact} props={this.state} />
+        <ContactForm addNewContact={this.addNewContact} props={this.state} />
         <h2>Contacts</h2>
-        <Filter onFilterChange={handleFilterChange} />
+        <Filter
+          onFilterChange={this.handleFilterChange}
+          value={this.state.filter}
+        />
         <ContactList
-          contactsState={this.state.contacts}
-          filter={this.state.filter}
-          deleteContact={deleteContact}
+          contacts={this.contactsFilter()}
+          deleteContact={this.deleteContact}
         />
       </div>
     );
