@@ -15,13 +15,16 @@ export class ContactForm extends Component {
   handleBtnClick = e => {
     e.preventDefault();
     const id = nanoid();
-    if (this.state.name && this.state.number) {
+    if (!this.state.name && !this.state.number) {
+      return;
+    } else {
       let newContact = {
         id: id,
         name: this.state.name,
         number: this.state.number,
       };
       this.props.addNewContact(newContact);
+      console.log(this.props);
       this.setState({ name: '', number: '' });
     }
   };

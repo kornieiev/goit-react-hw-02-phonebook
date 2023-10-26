@@ -16,11 +16,32 @@ export class App extends Component {
     filter: '',
   };
 
+  // //
+  // // записываем данные из localStorage в state при загрузке страницы
+  // componentDidMount(prevProps, prevState) {
+  //   const dataFromLS = JSON.parse(localStorage.getItem('contacts'));
+  //   if (dataFromLS !== this.state.contacts) {
+  //     this.setState({ contacts: dataFromLS });
+  //   }
+  // }
+
+  // //
+  // // записываем данные в localStorage из state при обновлении state
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.state.contacts !== prevState.contacts) {
+  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
+  //   }
+  // }
+
   //
   // Логіка додавання нового контакту:
   addNewContact = newContact => {
     const { contacts } = this.state;
-    if (contacts.find(contact => contact.name === newContact.name)) {
+    if (
+      contacts.find(
+        contact => contact.name.toLowerCase() === newContact.name.toLowerCase()
+      )
+    ) {
       alert(newContact.name + ' is already in contacts.');
       return;
     }
@@ -33,16 +54,28 @@ export class App extends Component {
   // Зміна значення state.filter в інпуті фільтра
   handleFilterChange = e => {
     this.setState({ [e.target.name]: e.target.value });
-    this.contactsFilter();
   };
 
   //
   // Фільтр пошуку по імені і номеру для передачі відфільтрованого масиву в ContactList
+  // contactsFilter = () => {
+  //   return this.state.contacts.filter(contact => {
+  //     return `${contact.name}${contact.number}`
+  //       .toLowerCase()
+  //       .includes(this.state.filter.toLowerCase().trim());
+  //   });
+  // };
   contactsFilter = () => {
-    return this.state.contacts.filter(contact => {
-      return `${contact.name}${contact.number}`
-        .toLocaleLowerCase()
-        .includes(this.state.filter.toLocaleLowerCase().trim());
+    const { contacts, filter } = this.state;
+    return contacts.filter(({ name, number }) => {
+      if (filter) {
+        return (
+          name.trim().toLowerCase().includes(filter.toLowerCase()) ||
+          number.trim().toLowerCase().includes(filter.toLowerCase())
+        );
+      } else {
+        return true;
+      }
     });
   };
 
