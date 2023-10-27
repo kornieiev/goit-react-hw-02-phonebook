@@ -16,23 +16,6 @@ export class App extends Component {
     filter: '',
   };
 
-  // //
-  // // записываем данные из localStorage в state при загрузке страницы
-  // componentDidMount(prevProps, prevState) {
-  //   const dataFromLS = JSON.parse(localStorage.getItem('contacts'));
-  //   if (dataFromLS !== this.state.contacts) {
-  //     this.setState({ contacts: dataFromLS });
-  //   }
-  // }
-
-  // //
-  // // записываем данные в localStorage из state при обновлении state
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.state.contacts !== prevState.contacts) {
-  //     localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-  //   }
-  // }
-
   //
   // Логіка додавання нового контакту:
   addNewContact = newContact => {
